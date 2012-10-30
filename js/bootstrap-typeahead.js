@@ -15,8 +15,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * ============================================================ */
 
+ * ============================================================ */
 
 !function($){
 
@@ -36,6 +36,7 @@
     this.$menu = $(this.options.menu).appendTo('body')
     this.source = this.options.source
     this.shown = false
+    this.useTags = false
     this.listen()
   }
 
@@ -106,7 +107,24 @@
       return this.render(items.slice(0, this.options.items)).show()
     }
 
+  , getTag: function() {
+      var parts = this.query.split(/\s+/);
+      var regex = /(^\#|\s\#)([a-z0-9]+)/gi;
+
+      var hashtags = parts[parts.length - 1].match(regex);
+      if (hashtags !== undefined) {
+        if (hashtags.length > 0) {
+          return true
+        }
+      }
+      return false
+    }
+
   , matcher: function (item) {
+      if (this.useTags) {
+        lastTag = this.getTag()
+        // TODO
+      }
       return ~item.toLowerCase().indexOf(this.query.toLowerCase())
     }
 

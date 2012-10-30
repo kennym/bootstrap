@@ -196,4 +196,31 @@ $(function () {
 
         typeahead.$menu.remove()
       })
+
+      test("should show list on #hashtag", function () {
+        var $input = $('<input />').typeahead({
+              source: ['amsterdam', 'awesome', 'apple'],
+              minLength: 1,
+              useTags: true
+            })
+          , typeahead = $input.data('typeahead')
+
+        $input.val('#a')
+        typeahead.lookup()
+
+        equals(typeahead.$menu.find('li').length, 3, 'has 3 items in menu')
+
+        $input.val('#ams')
+        typeahead.lookup()
+
+        equals(typeahead.$menu.find('li').length, 1, 'has 1 items in menu')
+
+        $input.val('#beard')
+        typeahead.lookup()
+
+        equals(typeahead.$menu.find('li').length, 0, 'has 0 items in menu')
+
+        typeahead.$menu.remove()
+
+      })
 })
